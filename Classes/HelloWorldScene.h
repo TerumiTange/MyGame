@@ -33,6 +33,13 @@ public:
     static cocos2d::Scene* createScene();
 
     virtual bool init();
+
+	void update(float delta) override;
+
+	int count;
+	float time;
+
+	cocos2d::Sprite* sprite;//スプライト
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);

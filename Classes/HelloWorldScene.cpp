@@ -117,10 +117,23 @@ bool HelloWorld::init()
     //}
 
 	// テクスチャファイル名を指定して、スプライトを作成
-	Sprite* sprite = Sprite::create("tamatama.png");
+	sprite = Sprite::create("tamatama.png");
 	// シーングラフにつなぐ
 	this->addChild(sprite);
+	sprite->setPosition(Vec2(500.0f, 500.0f));//座標位置
+	//sprite->setRotation(45);//画像回転
+	//sprite->setScale(3, 4);//拡縮指定
+	//sprite->setFlippedX(true);//左右反転
+	//sprite->setFlippedY(true);//上下反転
+	//sprite->setVisible(false);//非表示
+	//sprite->setColor(Color3B(0xff, 34, 12));//色合い指定　(255,255,255)で元の色
 
+	sprite->setOpacity(255);//不透明度　255で完全に見えてる状態
+
+	this->scheduleUpdate();//updateを有効化する
+
+	count = 1;
+	time = 0;
     return true;
 }
 
@@ -135,5 +148,49 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 
+
+}
+
+void HelloWorld::update(float delta) 
+{
+	
+	/*Vec2 pos = sprite->getPosition();
+	time+=1;
+	float i = 255 - time / 300 * 255;
+	pos += Vec2(-1, 0);
+	sprite->setPosition(pos);//左に移動+
+	if (i < 0)i = 0;
+	sprite->setOpacity(i);//徐々に透明*/
+
+	//←↓→↑に移動
+	Vec2 pos = sprite->getPosition();
+	switch (count)
+	{
+	case 1:pos.x -= 5; 
+		if (pos.x < 100){
+		count = 2;
+	    } 
+		break;
+	case 2:
+		pos.y -= 5;
+		if (pos.y < 100) {
+			count = 3;
+		}
+		break;
+	case 3:
+		pos.x += 5; 
+		if (pos.x > 1280 - 100) {
+			count = 4;
+		}
+		break;
+	case 4:
+		pos.y += 5;
+		if (pos.y > 600) {
+			count = 1;
+		}
+		break;
+	}
+
+	sprite->setPosition(pos);
 
 }
