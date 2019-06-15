@@ -117,10 +117,17 @@ bool HelloWorld::init()
     //}
 
 	// テクスチャファイル名を指定して、スプライトを作成
-	sprite = Sprite::create("tamatama.png");
+	//sprite2 = Sprite::create("HelloWorld.png");
+	//sprite = Sprite::create("tamatama.png");
+	//sprite = Sprite::create("tamatama.png");
+	sprite = Sprite::create("tama.png");
+	sprite2= Sprite::create("magma.png");
 	// シーングラフにつなぐ
 	this->addChild(sprite);
-	sprite->setPosition(Vec2(500.0f, 500.0f));//座標位置
+	this->addChild(sprite2);
+
+	sprite->setPosition(Vec2(visibleSize.width / 2.0f, visibleSize.height / 2.0f));//座標位置
+	sprite2->setPosition(Vec2(visibleSize.width / 2.0f+100, visibleSize.height / 2.0f));
 	//sprite->setRotation(45);//画像回転
 	//sprite->setScale(3, 4);//拡縮指定
 	//sprite->setFlippedX(true);//左右反転
@@ -129,11 +136,25 @@ bool HelloWorld::init()
 	//sprite->setColor(Color3B(0xff, 34, 12));//色合い指定　(255,255,255)で元の色
 
 	sprite->setOpacity(255);//不透明度　255で完全に見えてる状態
+	//sprite2->setOpacity(0);
+
+	sprite->setAnchorPoint(Vec2(0.5f,0.5f));//画像の左下(0,0)右下(1,1)の座標系で基準点を指定
+	sprite2->setAnchorPoint(Vec2(0.0f, 0.5f));
+	sprite2->setOpacity(0);
+
+	sprite->setTextureRect(Rect(24*3, 0, 24, 32));//x,y,w,h
+	sprite2->setTextureRect(Rect(0, 0, 1, 1));
+
+	sprite->setScale(10);
+	sprite->getTexture()->setAliasTexParameters();
 
 	this->scheduleUpdate();//updateを有効化する
 
 	count = 1;
+	count2 = 0;
 	time = 0;
+	time2 = 0;
+	scaly = 0;
     return true;
 }
 
@@ -163,34 +184,97 @@ void HelloWorld::update(float delta)
 	sprite->setOpacity(i);//徐々に透明*/
 
 	//←↓→↑に移動
-	Vec2 pos = sprite->getPosition();
-	switch (count)
+	//Vec2 pos = sprite->getPosition();
+	//switch (count)
+	//{
+	//case 1:pos.x -= 5; 
+	//	if (pos.x < 100){
+	//	count = 2;
+	//    } 
+	//	break;
+	//case 2:
+	//	pos.y -= 5;
+	//	if (pos.y < 100) {
+	//		count = 3;
+	//	}
+	//	break;
+	//case 3:
+	//	pos.x += 5; 
+	//	if (pos.x > 1280 - 100) {
+	//		count = 4;
+	//	}
+	//	break;
+	//case 4:
+	//	pos.y += 5;
+	//	if (pos.y > 600) {
+	//		count = 1;
+	//	}
+	//	break;
+	//}
+	//
+	//sprite->setPosition(pos);
+
+	//クロスフェード
+	//float i = sprite->getOpacity();
+	//float m = sprite2->getOpacity();
+	//i --;
+	//m ++;
+	//if (i <= 0)i = 0;
+	//if (m >= 255)m = 255;
+	//
+	//sprite->setOpacity(i);
+	//sprite2->setOpacity(m);
+
+	//アニメーション
+	if (!(count2 >= 5)) {
+		time += 1;
+	}
+	else
 	{
-	case 1:pos.x -= 5; 
-		if (pos.x < 100){
-		count = 2;
-	    } 
-		break;
-	case 2:
-		pos.y -= 5;
-		if (pos.y < 100) {
-			count = 3;
-		}
-		break;
-	case 3:
-		pos.x += 5; 
-		if (pos.x > 1280 - 100) {
-			count = 4;
-		}
-		break;
-	case 4:
-		pos.y += 5;
-		if (pos.y > 600) {
-			count = 1;
-		}
-		break;
+		time = 1;
 	}
 
-	sprite->setPosition(pos);
+	if ((int)time % 30 == 0) {
+		if (count == 1)count = 0;
+		else
+		{
+			count = 1;
+		}
+		count2++;
+	}
 
+	switch (count)
+	{
+	case 0:sprite->setTextureRect(Rect(0, 32*2, 24, 32)); break;
+	case 1:sprite->setTextureRect(Rect(24, 32*2, 24, 32)); break;
+	}
+
+	if (count2 >= 5) {
+		sprite2->setOpacity(255);
+		time2++;
+	}
+
+	if (time2 > 10) {
+		
+		sprite2->setScaleY(scaly*5);
+		if (time2>50)
+		{
+			sprite2->setScaleX(50*100);
+		}
+	}
+	else
+	{
+		scaly+=0.1f;
+		sprite2->setScaleY(scaly * 5);
+		sprite2->setScaleX(time2 * 100);
+	}
+
+	if (time2>300)
+	{
+		scaly--;
+		if (scaly <= 0) {
+			scaly = 0;
+		}
+		sprite2->setScaleY(scaly * 5);
+	}
 }

@@ -36,10 +36,14 @@ public:
 
 	void update(float delta) override;
 
+	int count2;
 	int count;
 	float time;
+	float time2;
+	float scaly;
 
 	cocos2d::Sprite* sprite;//スプライト
+	cocos2d::Sprite*sprite2;
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
