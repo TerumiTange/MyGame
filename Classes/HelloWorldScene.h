@@ -41,6 +41,7 @@ public:
 	float time;
 	float time2;
 	float scaly;
+	bool al;
 
 	cocos2d::Sprite* sprite;//スプライト
 	cocos2d::Sprite*sprite2;

@@ -155,6 +155,7 @@ bool HelloWorld::init()
 	time = 0;
 	time2 = 0;
 	scaly = 0;
+	al = false;
     return true;
 }
 
@@ -226,55 +227,70 @@ void HelloWorld::update(float delta)
 	//sprite2->setOpacity(m);
 
 	//アニメーション
-	if (!(count2 >= 5)) {
-		time += 1;
-	}
-	else
+	if (al == false) 
 	{
-		time = 1;
-	}
-
-	if ((int)time % 30 == 0) {
-		if (count == 1)count = 0;
+		if (!(count2 >= 5)) {
+			time += 1;
+		}
 		else
 		{
-			count = 1;
+			time = 1;
 		}
-		count2++;
-	}
 
-	switch (count)
-	{
-	case 0:sprite->setTextureRect(Rect(0, 32*2, 24, 32)); break;
-	case 1:sprite->setTextureRect(Rect(24, 32*2, 24, 32)); break;
-	}
+		if ((int)time % 30 == 0) {
+			if (count == 1)count = 0;
+			else
+			{
+				count = 1;
+			}
+			count2++;
+		}
 
-	if (count2 >= 5) {
-		sprite2->setOpacity(255);
-		time2++;
-	}
-
-	if (time2 > 10) {
-		
-		sprite2->setScaleY(scaly*5);
-		if (time2>50)
+		switch (count)
 		{
-			sprite2->setScaleX(50*100);
+		case 0:sprite->setTextureRect(Rect(0, 32 * 2, 24, 32)); break;
+		case 1:sprite->setTextureRect(Rect(24, 32 * 2, 24, 32)); break;
+		}
+
+		if (count2 >= 5) {
+			sprite2->setOpacity(255);
+			time2++;
+		}
+
+		if (time2 > 10) {
+
+			sprite2->setScaleY(scaly * 5);
+			if (time2 > 50)
+			{
+				sprite2->setScaleX(50 * 100);
+			}
+		}
+		else
+		{
+			scaly += 0.1f;
+			sprite2->setScaleY(scaly * 5);
+			sprite2->setScaleX(time2 * 100);
+		}
+
+		if (time2 > 300)
+		{
+			scaly--;
+			if (scaly <= 0) {
+				scaly = 0;
+			}
+			sprite2->setScaleY(scaly * 5);
+			if (sprite2->getScaleY() <= 0) {
+				al = true;
+			}
 		}
 	}
 	else
 	{
-		scaly+=0.1f;
-		sprite2->setScaleY(scaly * 5);
-		sprite2->setScaleX(time2 * 100);
-	}
-
-	if (time2>300)
-	{
-		scaly--;
-		if (scaly <= 0) {
-			scaly = 0;
-		}
-		sprite2->setScaleY(scaly * 5);
+		count = 1;
+		count2 = 0;
+		time = 0;
+		time2 = 0;
+		scaly = 0;
+		al = false;
 	}
 }
