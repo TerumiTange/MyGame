@@ -170,24 +170,36 @@ bool HelloWorld::init()
 	//sprite->runAction(action1);
 	//sprite2->runAction(action1->clone());
 
-	srand(time(nullptr));
-
-	for (int i = 0; i < 5; i++) 
-	{
-		spriteList[i] = Sprite::create("tamatama.png");
-		this->addChild(spriteList[i]);
-
-		spriteList[i]->setPosition(Vec2(visibleSize.width / 2.0f - (i * 100), visibleSize.height / 2.0f));
-		
-		float mx, my;
-		mx = (float)rand() / RAND_MAX * 200 - 100;
-		my = (float)rand() / RAND_MAX * 200 - 100;
-		
-		MoveBy* action1 = MoveBy::create(0.5f, Vec2(mx, my));
-		spriteList[i]->runAction(action1->clone());
-	}
+	//srand(time(nullptr));//ƒ‰ƒ“ƒ_ƒ€
+	//
+	//for (int i = 0; i < 10; i++) 
+	//{
+	//	spriteList[i] = Sprite::create("tamatama.png");
+	//	this->addChild(spriteList[i]);
+	//
+	//	float mx, my;
+	//	mx = (float)rand() / RAND_MAX * 200 - 100;
+	//	my = (float)rand() / RAND_MAX * 200 - 100;
+	//
+	//	spriteList[i]->setPosition(Vec2(visibleSize.width / 2.0f - (350 + mx) + (i * 100), visibleSize.height / 2.0f + my));
+	//	
+	//	mx = (float)rand() / RAND_MAX * 200 - 100;
+	//	my = (float)rand() / RAND_MAX * 200 - 100;
+	//	
+	//	MoveBy* action1 = MoveBy::create(0.5f, Vec2(mx, my));
+	//	spriteList[i]->runAction(action1->clone());
+	//}
 	
-
+	spriteList[0] = Sprite::create("tamatama.png");
+	this->addChild(spriteList[0]);
+	spriteList[0]->setPosition(Vec2(visibleSize.width / 2.0f - 100, visibleSize.height / 2.0f));
+	MoveTo* action1 = MoveTo::create(1, Vec2(100, 500));
+	MoveTo* action2 = MoveTo::create(0.3f, Vec2(100, 100));
+	MoveTo* action3 = MoveTo::create(1, Vec2(1200, 100));
+	MoveTo* action4 = MoveTo::create(0.3f, Vec2(1200, 500));
+	Sequence* action5 = Sequence::create(action1, action2, action3, action4, nullptr);
+	RepeatForever* action6 = RepeatForever::create(action5);
+	spriteList[0]->runAction(action6);
 
     return true;
 }
