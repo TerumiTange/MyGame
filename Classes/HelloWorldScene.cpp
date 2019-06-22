@@ -119,15 +119,16 @@ bool HelloWorld::init()
 	// テクスチャファイル名を指定して、スプライトを作成
 	//sprite2 = Sprite::create("HelloWorld.png");
 	//sprite = Sprite::create("tamatama.png");
-	//sprite = Sprite::create("tamatama.png");
-	sprite = Sprite::create("tama.png");
-	sprite2= Sprite::create("magma.png");
+	//sprite2 = Sprite::create("tamatama.png");
+	//sprite = Sprite::create("tama.png");
+	//sprite2= Sprite::create("magma.png");
+	
 	// シーングラフにつなぐ
-	this->addChild(sprite);
-	this->addChild(sprite2);
+	//this->addChild(sprite);
+	//this->addChild(sprite2);
 
-	sprite->setPosition(Vec2(visibleSize.width / 2.0f, visibleSize.height / 2.0f));//座標位置
-	sprite2->setPosition(Vec2(visibleSize.width / 2.0f+100, visibleSize.height / 2.0f));
+	//sprite->setPosition(Vec2(visibleSize.width / 2.0f - 100, visibleSize.height / 2.0f));//座標位置
+	//sprite2->setPosition(Vec2(visibleSize.width / 2.0f+100, visibleSize.height / 2.0f));
 	//sprite->setRotation(45);//画像回転
 	//sprite->setScale(3, 4);//拡縮指定
 	//sprite->setFlippedX(true);//左右反転
@@ -135,27 +136,59 @@ bool HelloWorld::init()
 	//sprite->setVisible(false);//非表示
 	//sprite->setColor(Color3B(0xff, 34, 12));//色合い指定　(255,255,255)で元の色
 
-	sprite->setOpacity(255);//不透明度　255で完全に見えてる状態
+	//sprite->setOpacity(255);//不透明度　255で完全に見えてる状態
 	//sprite2->setOpacity(0);
 
-	sprite->setAnchorPoint(Vec2(0.5f,0.5f));//画像の左下(0,0)右下(1,1)の座標系で基準点を指定
-	sprite2->setAnchorPoint(Vec2(0.0f, 0.5f));
-	sprite2->setOpacity(0);
+	//sprite->setAnchorPoint(Vec2(0.5f,0.5f));//画像の左下(0,0)右下(1,1)の座標系で基準点を指定
+	//sprite2->setAnchorPoint(Vec2(0.0f, 0.5f));
+	//sprite2->setOpacity(0);
 
-	sprite->setTextureRect(Rect(24*3, 0, 24, 32));//x,y,w,h
-	sprite2->setTextureRect(Rect(0, 0, 1, 1));
-
-	sprite->setScale(10);
-	sprite->getTexture()->setAliasTexParameters();
+	//sprite->setTextureRect(Rect(24*3, 0, 24, 32));//x,y,w,h
+	//sprite2->setTextureRect(Rect(0, 0, 1, 1));
+	
+	//sprite->setScale(10);
+	//sprite->getTexture()->setAliasTexParameters();
 
 	this->scheduleUpdate();//updateを有効化する
 
-	count = 1;
-	count2 = 0;
-	time = 0;
-	time2 = 0;
-	scaly = 0;
-	al = false;
+	//count = 1;
+	//count2 = 0;
+	//time = 0;
+	//time2 = 0;
+	//scaly = 0;
+	//al = false;
+
+	//ccBezierConfig conf;
+	//conf.controlPoint_1 = Vec2();
+	//conf.controlPoint_2 = Vec2(1, 1);
+	//conf.endPosition = Vec2(3, 3);
+	//BezierTo* action1 = BezierTo::create(3.0f, conf);
+
+	//                               時間　　　　X　　Y
+	//MoveBy* action1 = MoveBy::create(0.5f, Vec2(200, 100));
+	//EaseIn* action2 = EaseIn::create(action1, 2.0f);
+	//sprite->runAction(action1);
+	//sprite2->runAction(action1->clone());
+
+	srand(time(nullptr));
+
+	for (int i = 0; i < 5; i++) 
+	{
+		spriteList[i] = Sprite::create("tamatama.png");
+		this->addChild(spriteList[i]);
+
+		spriteList[i]->setPosition(Vec2(visibleSize.width / 2.0f - (i * 100), visibleSize.height / 2.0f));
+		
+		float mx, my;
+		mx = (float)rand() / RAND_MAX * 200 - 100;
+		my = (float)rand() / RAND_MAX * 200 - 100;
+		
+		MoveBy* action1 = MoveBy::create(0.5f, Vec2(mx, my));
+		spriteList[i]->runAction(action1->clone());
+	}
+	
+
+
     return true;
 }
 
@@ -227,7 +260,7 @@ void HelloWorld::update(float delta)
 	//sprite2->setOpacity(m);
 
 	//アニメーション
-	if (al == false) 
+	/*if (al == false) 
 	{
 		if (!(count2 >= 5)) {
 			time += 1;
@@ -292,5 +325,5 @@ void HelloWorld::update(float delta)
 		time2 = 0;
 		scaly = 0;
 		al = false;
-	}
+	}*/
 }

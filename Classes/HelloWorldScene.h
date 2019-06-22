@@ -38,13 +38,17 @@ public:
 
 	int count2;
 	int count;
-	float time;
+	//float time;
 	float time2;
 	float scaly;
 	bool al;
 
 	cocos2d::Sprite* sprite;//スプライト
-	cocos2d::Sprite*sprite2;
+	cocos2d::Sprite* sprite2;
+
+	cocos2d::Sprite* spriteList[100];
+
+	
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
