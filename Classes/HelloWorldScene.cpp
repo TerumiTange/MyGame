@@ -24,6 +24,7 @@
 
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
+using namespace CocosDenshion;//音を出すのに必要
 
 USING_NS_CC;
 
@@ -189,18 +190,46 @@ bool HelloWorld::init()
 	//	MoveBy* action1 = MoveBy::create(0.5f, Vec2(mx, my));
 	//	spriteList[i]->runAction(action1->clone());
 	//}
-	
-	spriteList[0] = Sprite::create("tamatama.png");
-	this->addChild(spriteList[0]);
-	spriteList[0]->setPosition(Vec2(visibleSize.width / 2.0f - 100, visibleSize.height / 2.0f));
-	MoveTo* action1 = MoveTo::create(1, Vec2(100, 500));
-	MoveTo* action2 = MoveTo::create(0.3f, Vec2(100, 100));
-	MoveTo* action3 = MoveTo::create(1, Vec2(1200, 100));
-	MoveTo* action4 = MoveTo::create(0.3f, Vec2(1200, 500));
-	Sequence* action5 = Sequence::create(action1, action2, action3, action4, nullptr);
-	RepeatForever* action6 = RepeatForever::create(action5);
-	spriteList[0]->runAction(action6);
 
+	{
+		//BGMを流す
+		SimpleAudioEngine::getInstance()->preloadBackgroundMusic("ending.mp3");//どの曲を保管するか
+		SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(0.1f);//音量(1.0が最大)
+		SimpleAudioEngine::getInstance()->playBackgroundMusic("ending.mp3", true);//ループするかどうか(trueがループ)
+		SimpleAudioEngine::getInstance()->playBackgroundMusic("ending.mp3");//曲を再生
+
+		//SimpleAudioEngine::getInstance()->stopBackgroundMusic();//停止
+		//SimpleAudioEngine::getInstance()->pauseBackgroundMusic();//一時停止
+		//SimpleAudioEngine::getInstance()->resumeBackgroundMusic();//一時停止からの復帰
+		//SimpleAudioEngine::getInstance()->rewindBackgroundMusic();//音楽を先頭に戻す
+		//if(SimpleAudioEngine::getInstance()->isBackgroundMusicPlaying){}//音楽が流れているかどうか
+	}
+
+	{
+		//SE音をならす
+		//SimpleAudioEngine::sharedEngine()->preloadEffect("曲名.mp3");
+		//SimpleAudioEngine::sharedEngine()->setEffectsVolume(0.1f);
+		//int soundID;
+		//soundID = SimpleAudioEngine::sharedEngine()->playEffect("曲名.mp3");
+		//
+		//SimpleAudioEngine::sharedEngine()->stopEffect(soundID);//効果音を止める
+		//SimpleAudioEngine::sharedEngine()->pauseEffect(soundID);//一時停止
+		//SimpleAudioEngine::sharedEngine()->resumeEffect(soundID);//再開
+	}
+
+	{
+		//無限ループ
+		spriteList[0] = Sprite::create("tamatama.png");
+		this->addChild(spriteList[0]);
+		spriteList[0]->setPosition(Vec2(visibleSize.width / 2.0f - 100, visibleSize.height / 2.0f));
+		MoveTo* action1 = MoveTo::create(1, Vec2(100, 500));	//この地点に移動
+		MoveTo* action2 = MoveTo::create(0.3f, Vec2(100, 100));	//この地点に移動
+		MoveTo* action3 = MoveTo::create(1, Vec2(1200, 100));	//この地点に移動
+		MoveTo* action4 = MoveTo::create(0.3f, Vec2(1200, 500));//この地点に移動
+		Sequence* action5 = Sequence::create(action1, action2, action3, action4, nullptr);//この順番で行う
+		RepeatForever* action6 = RepeatForever::create(action5);//この作業を繰り返す
+		spriteList[0]->runAction(action6);
+	}
     return true;
 }
 
