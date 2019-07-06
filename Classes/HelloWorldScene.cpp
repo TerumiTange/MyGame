@@ -23,8 +23,10 @@
  ****************************************************************************/
 
 #include "HelloWorldScene.h"
-#include "SimpleAudioEngine.h"
-using namespace CocosDenshion;//音を出すのに必要
+#include "SimpleAudioEngine.h"//古い
+using namespace CocosDenshion;//音を出すのに必要(古い)
+
+#include "AudioEngine.h"
 
 USING_NS_CC;
 
@@ -117,6 +119,8 @@ bool HelloWorld::init()
     //    this->addChild(sprite, 0);
     //}
 
+
+
 	// テクスチャファイル名を指定して、スプライトを作成
 	//sprite2 = Sprite::create("HelloWorld.png");
 	//sprite = Sprite::create("tamatama.png");
@@ -191,33 +195,34 @@ bool HelloWorld::init()
 	//	spriteList[i]->runAction(action1->clone());
 	//}
 
-	{
-		//BGMを流す
+	/*{
+		//BGMを流す(古いほう)
 		SimpleAudioEngine::getInstance()->preloadBackgroundMusic("ending.mp3");//どの曲を保管するか
-		SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(0.1f);//音量(1.0が最大)
+		SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(0.01f);//音量(1.0が最大)
 		SimpleAudioEngine::getInstance()->playBackgroundMusic("ending.mp3", true);//ループするかどうか(trueがループ)
 		SimpleAudioEngine::getInstance()->playBackgroundMusic("ending.mp3");//曲を再生
+
 
 		//SimpleAudioEngine::getInstance()->stopBackgroundMusic();//停止
 		//SimpleAudioEngine::getInstance()->pauseBackgroundMusic();//一時停止
 		//SimpleAudioEngine::getInstance()->resumeBackgroundMusic();//一時停止からの復帰
 		//SimpleAudioEngine::getInstance()->rewindBackgroundMusic();//音楽を先頭に戻す
 		//if(SimpleAudioEngine::getInstance()->isBackgroundMusicPlaying){}//音楽が流れているかどうか
-	}
+	}*/
 
-	{
-		//SE音をならす
+	/*{
+		//SE音をならす(古いほう)
 		//SimpleAudioEngine::sharedEngine()->preloadEffect("曲名.mp3");
 		//SimpleAudioEngine::sharedEngine()->setEffectsVolume(0.1f);
 		//int soundID;
 		//soundID = SimpleAudioEngine::sharedEngine()->playEffect("曲名.mp3");
-		//
 		//SimpleAudioEngine::sharedEngine()->stopEffect(soundID);//効果音を止める
 		//SimpleAudioEngine::sharedEngine()->pauseEffect(soundID);//一時停止
 		//SimpleAudioEngine::sharedEngine()->resumeEffect(soundID);//再開
-	}
+		//SimpleAudioEngine::unloadEffect//se開放
+	}*/
 
-	{
+	/*{
 		//無限ループ
 		spriteList[0] = Sprite::create("tamatama.png");
 		this->addChild(spriteList[0]);
@@ -229,6 +234,23 @@ bool HelloWorld::init()
 		Sequence* action5 = Sequence::create(action1, action2, action3, action4, nullptr);//この順番で行う
 		RepeatForever* action6 = RepeatForever::create(action5);//この作業を繰り返す
 		spriteList[0]->runAction(action6);
+		//DelayTime* action = DelayTime::create(1);//この時間止まる
+
+	}*/
+
+	{
+		//BGM(new)
+		experimental::AudioEngine::play2d("ending.mp3", true);//ループ再生 
+        // オーディオIDを入れる変数（メンバ変数にするとよい）
+		int audioID;
+		// 再生すると、オーディオIDが割り振られる
+		audioID = experimental::AudioEngine::play2d("ending.mp3", true);
+		// 割り振られたオーディオIDを指定して止める
+		experimental::AudioEngine::stop(audioID);
+		// 割り振られたオーディオIDを指定して一時停止
+		experimental::AudioEngine::pause(audioID);
+		// 割り振られたオーディオIDを指定して再開
+		experimental::AudioEngine::resume(audioID);
 	}
     return true;
 }

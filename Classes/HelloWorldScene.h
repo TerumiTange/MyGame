@@ -27,6 +27,8 @@
 
 #include "cocos2d.h"
 
+
+
 class HelloWorld : public cocos2d::Scene
 {
 public:
@@ -47,6 +49,8 @@ public:
 	cocos2d::Sprite* sprite2;
 
 	cocos2d::Sprite* spriteList[100];
+
+	
 
 	
     
