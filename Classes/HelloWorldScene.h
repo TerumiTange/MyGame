@@ -26,17 +26,18 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
-
-
+#include <string>
 
 class HelloWorld : public cocos2d::Scene
 {
 public:
     static cocos2d::Scene* createScene();
-
+	
     virtual bool init();
-
 	void update(float delta) override;
+	void m1(int x, int y, int i, float times, const std::string& filename,float t,float s);
+	void m2(int x,int y);
+	void m3(int x, int y);
 
 	int count2;
 	int count;
@@ -50,7 +51,7 @@ public:
 
 	cocos2d::Sprite* spriteList[100];
 
-	
+	cocos2d::Label* labelText;
 
 	
     
